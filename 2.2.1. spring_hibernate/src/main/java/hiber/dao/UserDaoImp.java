@@ -8,8 +8,10 @@ import org.springframework.stereotype.Repository;
 import javax.persistence.TypedQuery;
 import java.util.List;
 
+
 @Repository
 public class UserDaoImp implements UserDao {
+   public static final String GET_USER_BY_CAR = "from User user where user.car.model = :model and user.car.series = :series";
 
    @Autowired
    private SessionFactory sessionFactory;
@@ -26,4 +28,11 @@ public class UserDaoImp implements UserDao {
       return query.getResultList();
    }
 
+   @Override
+   public User getUserByCar(String model, int series) {
+         TypedQuery<User> query = sessionFactory.getCurrentSession().createQuery(GET_USER_BY_CAR);
+         query.setParameter("model", model);
+         query.setParameter("series", series);
+         return query.setMaxResults(1).getSingleResult();
+      }
 }
