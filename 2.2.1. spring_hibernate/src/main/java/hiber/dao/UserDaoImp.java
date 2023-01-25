@@ -11,28 +11,28 @@ import java.util.List;
 
 @Repository
 public class UserDaoImp implements UserDao {
-   public static final String GET_USER_BY_CAR = "from User user where user.car.model = :model and user.car.series = :series";
+    public static final String GET_USER_BY_CAR = "from User user where user.car.model = :model and user.car.series = :series";
 
-   @Autowired
-   private SessionFactory sessionFactory;
+    @Autowired
+    private SessionFactory sessionFactory;
 
-   @Override
-   public void add(User user) {
-      sessionFactory.getCurrentSession().save(user);
-   }
+    @Override
+    public void addUser(User user) {
+        sessionFactory.getCurrentSession().save(user);
+    }
 
-   @Override
-   @SuppressWarnings("unchecked")
-   public List<User> listUsers() {
-      TypedQuery<User> query=sessionFactory.getCurrentSession().createQuery("from User");
-      return query.getResultList();
-   }
+    @Override
+    @SuppressWarnings("unchecked")
+    public List<User> getListUser() {
+        TypedQuery<User> query = sessionFactory.getCurrentSession().createQuery("from User");
+        return query.getResultList();
+    }
 
-   @Override
-   public User getUserByCar(String model, int series) {
-         TypedQuery<User> query = sessionFactory.getCurrentSession().createQuery(GET_USER_BY_CAR);
-         query.setParameter("model", model);
-         query.setParameter("series", series);
-         return query.setMaxResults(1).getSingleResult();
-      }
+    @Override
+    public User getUserByCar(String model, int series) {
+        TypedQuery<User> query = sessionFactory.getCurrentSession().createQuery(GET_USER_BY_CAR);
+        query.setParameter("model", model);
+        query.setParameter("series", series);
+        return query.setMaxResults(1).getSingleResult();
+    }
 }
